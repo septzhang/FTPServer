@@ -13,3 +13,8 @@ spring:
     password: 199811
 server:
   port: 8080
+
+logging:
+  config: logback.xml
+  level:
+    com.itcodai.course03.dao: trace

@@ -3,12 +3,12 @@ package com.ajie.ftpserver.controller;
 import com.ajie.ftpserver.pojo.FilesPojo;
 import com.ajie.ftpserver.service.FilesService;
 import com.ajie.ftpserver.utils.R;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
-import javax.websocket.server.PathParam;
 import java.io.*;
 
 /**
@@ -40,17 +40,26 @@ public class FilesController {
      */
     @GetMapping("/download")
     public R download(@RequestParam("fileUUID") String fileUUID, HttpServletResponse response){
-        R r = filesService.downloadFile(fileUUID);
-        FilesPojo filesPojo =(FilesPojo) r.get("file");
+        FilesPojo filesPojo =filesService.downloadFile(fileUUID);
         if (null != filesPojo){
-            String fileName = filesPojo.getFileOldName();// 文件名
+            /**
+             * 设置文件名
+             */
+            String fileName = filesPojo.getFileOldName();
             if (fileName != null) {
-                //设置文件路径
+                /**
+                 * 设置文件路径
+                 */
                 File file = new File(filesPojo.getFilePath());
-                //File file = new File(realPath , fileName);
                 if (file.exists()) {
-                    response.setContentType("application/force-download");// 设置强制下载不打开
-                    response.addHeader("Content-Disposition", "attachment;fileName=" + fileName);// 设置文件名
+                    /**
+                     * 设置强制下载不打开
+                     */
+                    response.setContentType("application/force-download");
+                    /**
+                     * 设置文件名
+                     */
+                    response.addHeader("Content-Disposition", "attachment;fileName=" + fileName);
                     byte[] buffer = new byte[1024];
                     FileInputStream fis = null;
                     BufferedInputStream bis = null;
@@ -63,7 +72,7 @@ public class FilesController {
                             os.write(buffer, 0, i);
                             i = bis.read(buffer);
                         }
-                        return r.put("msg","下载成功");
+                        return R.ok("下载成功"+file.getName());
                     } catch (Exception e) {
                         e.printStackTrace();
                     } finally {
@@ -85,7 +94,7 @@ public class FilesController {
                 }
             }
         }
-        return r;
+        return R.error(410,"异常响应");
 
     }
 
@@ -98,7 +107,6 @@ public class FilesController {
     @GetMapping("/getInfo")
     public R getInfo(@RequestParam("fileUUID") String fileUUID){
         return filesService.getInfoFile(fileUUID);
-
     }
 
 }
