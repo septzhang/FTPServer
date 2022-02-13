@@ -1,6 +1,3 @@
-# FTPServer
-基于Spring boot的FTP项目
-
 # Server 端功能需求：
 
 ## 上传文件接口：
@@ -21,7 +18,6 @@
    格式的元数据信息。
 
 # Server 端技术要求：
-
    项目基于 Maven 构建;
    WEB 服务使用嵌入式 Jetty 或 Tomcat 实现;
    只提供接口服务，无界面;

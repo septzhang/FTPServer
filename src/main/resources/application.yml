@@ -1,0 +1,15 @@
+
+spring:
+  servlet:
+    multipart:
+      max-request-size: 5GB  # ????????? ??10MB
+      max-file-size: 1GB #??????? ??10MB
+  datasource:
+    #MySQL??
+    driverClassName: com.mysql.cj.jdbc.NonRegisteringDriver
+    url: jdbc:mysql://localhost:3306/ftp_dome?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
+    #    url: jdbc:mysql://192.168.106.10:3306/chengguo?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
+    username: root
+    password: 199811
+server:
+  port: 8080
